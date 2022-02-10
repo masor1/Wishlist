@@ -1,4 +1,4 @@
-package com.masorone.wishlist
+package com.masorone.wishlist.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
