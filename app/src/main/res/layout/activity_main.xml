@@ -23,5 +23,5 @@
         android:clickable="true"
         android:contentDescription="@string/add_new_shop_item_description"
         android:focusable="true"
-        android:src="@android:drawable/ic_input_add" />
+        android:src="@drawable/svg_add" />
 </FrameLayout>
