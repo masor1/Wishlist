@@ -5,5 +5,5 @@ import com.masorone.wishlist.domain.repository.ShopItemRepository
 
 class FetchShopListUseCase(private val shopItemRepository: ShopItemRepository) {
 
-    fun fetch(): List<ShopItem> = shopItemRepository.fetch()
+    fun fetch() = shopItemRepository.fetch()
 }
