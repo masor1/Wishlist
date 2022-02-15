@@ -72,7 +72,11 @@ class ShopItemViewModel : ViewModel() {
     }
 
     private fun parseCount(inputCount: String?): Int {
-        return inputCount?.trim()?.toInt() ?: 0
+        return try {
+            inputCount?.trim()?.toInt() ?: 0
+        } catch (e: Exception) {
+            0
+        }
     }
 
     private fun validateInput(name: String, count: Int): Boolean {

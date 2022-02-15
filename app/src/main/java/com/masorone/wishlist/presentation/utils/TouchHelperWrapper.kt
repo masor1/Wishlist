@@ -1,9 +1,9 @@
-package com.masorone.wishlist.presentation.adapters.utils
+package com.masorone.wishlist.presentation.utils
 
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class TouchHelperSimpleCallback : SimpleCallback(
+abstract class TouchHelperWrapper : SimpleCallback(
     0,
     LEFT or RIGHT
 ) {

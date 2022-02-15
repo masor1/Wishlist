@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.masorone.wishlist.databinding.ActivityMainBinding
 import com.masorone.wishlist.presentation.adapters.ShopListAdapter
-import com.masorone.wishlist.presentation.adapters.utils.TouchHelperSimpleCallback
+import com.masorone.wishlist.presentation.utils.TouchHelperWrapper
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         setupRecyclerView()
+        setupAddButton()
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) { listOfShopItem ->
@@ -59,19 +60,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = { shopItem ->
-            val intent = ShopItemActivity.newIntent(this)
+            val intent = ShopItemActivity.newIntentEditMode(this, shopItem.id)
             startActivity(intent)
         }
     }
 
     private fun setupSwipeListener() {
         val itemTouchHelper = ItemTouchHelper(
-            object : TouchHelperSimpleCallback() {
+            object : TouchHelperWrapper() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     viewModel.deleteShopItem(shopListAdapter.currentList[viewHolder.adapterPosition])
                 }
             }
         )
         itemTouchHelper.attachToRecyclerView(binding.rvShopList)
+    }
+
+    private fun setupAddButton() {
+        binding.buttonAddShopItem.setOnClickListener {
+            val intent = ShopItemActivity.newIntentAddMode(this)
+            startActivity(intent)
+        }
     }
 }
