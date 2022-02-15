@@ -3,7 +3,6 @@ package com.masorone.wishlist.data
 import androidx.lifecycle.MutableLiveData
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.domain.repository.ShopItemRepository
-import kotlin.random.Random
 
 object ShopItemRepositoryImpl : ShopItemRepository {
 
@@ -13,12 +12,6 @@ object ShopItemRepositoryImpl : ShopItemRepository {
     })
 
     private var autoIncrementId = 0
-
-    init {
-        for (i in 0 until 1_000) {
-            add(ShopItem("name $i", i, Random.nextBoolean()))
-        }
-    }
 
     override fun add(shopItem: ShopItem) {
         if (shopItem.undefinedId())
