@@ -1,7 +1,6 @@
 package com.masorone.wishlist.presentation
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -60,11 +59,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = { shopItem ->
-            Toast.makeText(
-                this@MainActivity,
-                "shopItemId -> ${shopItem.id}",
-                Toast.LENGTH_SHORT
-            ).show()
+            val intent = ShopItemActivity.newIntent(this)
+            startActivity(intent)
         }
     }
 

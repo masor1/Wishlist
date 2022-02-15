@@ -1,9 +1,9 @@
 package com.masorone.wishlist.presentation
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import com.masorone.wishlist.R
+import androidx.appcompat.app.AppCompatActivity
 import com.masorone.wishlist.databinding.ActivityShopItemBinding
 
 class ShopItemActivity : AppCompatActivity() {
@@ -15,5 +15,13 @@ class ShopItemActivity : AppCompatActivity() {
         binding = ActivityShopItemBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+    }
+
+    companion object {
+
+        fun newIntent(context: Context): Intent {
+            val intent = Intent(context, ShopItemActivity::class.java)
+            return intent
+        }
     }
 }

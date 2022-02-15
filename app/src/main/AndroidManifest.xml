@@ -11,7 +11,8 @@
         android:theme="@style/Theme.Wishlist">
         <activity
             android:name=".presentation.ShopItemActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
