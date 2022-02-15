@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.masorone.wishlist.databinding.ActivityMainBinding
 import com.masorone.wishlist.presentation.adapters.ShopListAdapter
+import com.masorone.wishlist.presentation.adapters.utils.TouchHelperSimpleCallback
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +32,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         shopListAdapter = ShopListAdapter()
+        setupAdapterAndViewPool()
+        setupSwipeListener()
+        setupClickListener()
+        setupLongClickListener()
+    }
 
+    private fun setupAdapterAndViewPool() {
         with(binding.rvShopList) {
             adapter = shopListAdapter
             recycledViewPool.setMaxRecycledViews(
@@ -43,10 +50,6 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.MAX_POOL_SIZE
             )
         }
-
-        setupSwipeListener()
-        setupClickListener()
-        setupLongClickListener()
     }
 
     private fun setupLongClickListener() {
@@ -67,24 +70,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupSwipeListener() {
         val itemTouchHelper = ItemTouchHelper(
-            object : ItemTouchHelper.SimpleCallback(
-                0,
-                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
-
+            object : TouchHelperSimpleCallback() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     viewModel.deleteShopItem(shopListAdapter.currentList[viewHolder.adapterPosition])
                 }
             }
         )
-
         itemTouchHelper.attachToRecyclerView(binding.rvShopList)
     }
 }
