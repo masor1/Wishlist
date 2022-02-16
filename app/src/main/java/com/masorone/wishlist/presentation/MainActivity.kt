@@ -1,6 +1,7 @@
 package com.masorone.wishlist.presentation
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -11,7 +12,7 @@ import com.masorone.wishlist.presentation.adapter.ShopListAdapter
 import com.masorone.wishlist.presentation.fragment.ShopItemFragment
 import com.masorone.wishlist.presentation.wrapper.TouchHelperWrapper
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.shopList.observe(this) { listOfShopItem ->
             shopListAdapter.submitList(listOfShopItem)
         }
+    }
+
+    private fun onFragmentFinished() {
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 
     private fun setupRecyclerView() {
@@ -104,5 +110,9 @@ class MainActivity : AppCompatActivity() {
                 launchFragment(fragment)
             }
         }
+    }
+
+    override fun onFinished() {
+        onFragmentFinished()
     }
 }

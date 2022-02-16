@@ -3,13 +3,14 @@ package com.masorone.wishlist.presentation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.masorone.wishlist.R
 import com.masorone.wishlist.databinding.ActivityShopItemBinding
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.presentation.fragment.ShopItemFragment
 
-class ShopItemActivity : AppCompatActivity() {
+class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var binding: ActivityShopItemBinding
 
@@ -22,8 +23,8 @@ class ShopItemActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
         parseIntent()
-        if(savedInstanceState == null)
-        startMode(screenMode)
+        if (savedInstanceState == null)
+            startMode(screenMode)
     }
 
     private fun startMode(screenMode: String) {
@@ -68,5 +69,14 @@ class ShopItemActivity : AppCompatActivity() {
             intent.putExtra(MODE_KEY, MODE_EDIT)
             return intent
         }
+    }
+
+    private fun onFragmentFinished() {
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    override fun onFinished() {
+        onFragmentFinished()
     }
 }

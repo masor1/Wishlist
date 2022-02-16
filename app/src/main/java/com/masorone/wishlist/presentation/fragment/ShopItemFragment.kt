@@ -1,7 +1,7 @@
 package com.masorone.wishlist.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +17,22 @@ class ShopItemFragment : Fragment() {
 
     private lateinit var viewModel: ShopItemViewModel
 
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
+
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINE_ID
 
     private var _binding: FragmentShopItemBinding? = null
     private val binding get() = _binding!!
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must implement listener OnEditingFinishedListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +59,10 @@ class ShopItemFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    interface OnEditingFinishedListener {
+        fun onFinished()
     }
 
     private fun startMode(screenMode: String) {
@@ -82,7 +97,7 @@ class ShopItemFragment : Fragment() {
 
     private fun endWork() {
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            requireActivity().onBackPressed()
+            onEditingFinishedListener.onFinished()
         }
     }
 
