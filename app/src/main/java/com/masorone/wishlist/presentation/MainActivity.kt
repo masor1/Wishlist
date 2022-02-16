@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.masorone.wishlist.databinding.ActivityMainBinding
-import com.masorone.wishlist.presentation.adapters.ShopListAdapter
-import com.masorone.wishlist.presentation.utils.TouchHelperWrapper
+import com.masorone.wishlist.presentation.adapter.ShopListAdapter
+import com.masorone.wishlist.presentation.wrapper.TouchHelperWrapper
 
 class MainActivity : AppCompatActivity() {
 

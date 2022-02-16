@@ -1,4 +1,4 @@
-package com.masorone.wishlist.presentation.adapters
+package com.masorone.wishlist.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.masorone.wishlist.R
 import com.masorone.wishlist.domain.model.ShopItem
-import com.masorone.wishlist.presentation.adapters.utils.ShopItemDiffCallback
+import com.masorone.wishlist.presentation.adapter.diff_util.ShopItemDiffCallback
 
 class ShopListAdapter : ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder>(
     ShopItemDiffCallback()

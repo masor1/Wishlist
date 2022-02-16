@@ -1,4 +1,4 @@
-package com.masorone.wishlist.presentation.adapters.utils
+package com.masorone.wishlist.presentation.adapter.diff_util
 
 import androidx.recyclerview.widget.DiffUtil
 import com.masorone.wishlist.domain.model.ShopItem

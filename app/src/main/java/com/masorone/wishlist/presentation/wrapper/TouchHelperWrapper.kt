@@ -1,4 +1,4 @@
-package com.masorone.wishlist.presentation.utils
+package com.masorone.wishlist.presentation.wrapper
 
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView

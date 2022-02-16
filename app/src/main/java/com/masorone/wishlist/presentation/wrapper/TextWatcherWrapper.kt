@@ -1,4 +1,4 @@
-package com.masorone.wishlist.presentation.utils
+package com.masorone.wishlist.presentation.wrapper
 
 import android.text.Editable
 import android.text.TextWatcher

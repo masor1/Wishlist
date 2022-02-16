@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.masorone.wishlist.R
 import com.masorone.wishlist.databinding.ActivityShopItemBinding
 import com.masorone.wishlist.domain.model.ShopItem
-import com.masorone.wishlist.presentation.utils.TextWatcherWrapper
+import com.masorone.wishlist.presentation.wrapper.TextWatcherWrapper
 
 class ShopItemActivity : AppCompatActivity() {
 
