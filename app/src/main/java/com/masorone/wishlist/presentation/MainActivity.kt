@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.masorone.wishlist.R
 import com.masorone.wishlist.databinding.ActivityMainBinding
 import com.masorone.wishlist.presentation.adapter.ShopListAdapter
+import com.masorone.wishlist.presentation.fragment.ShopItemFragment
 import com.masorone.wishlist.presentation.wrapper.TouchHelperWrapper
 
 class MainActivity : AppCompatActivity() {
@@ -31,14 +33,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        shopListAdapter = ShopListAdapter()
         setupAdapterAndViewPool()
-        setupSwipeListener()
-        setupClickListener()
-        setupLongClickListener()
+        setupSwipeItemListener()
+        setupClickItemListener()
+        setupLongClickItemListener()
     }
 
     private fun setupAdapterAndViewPool() {
+        shopListAdapter = ShopListAdapter()
         with(binding.rvShopList) {
             adapter = shopListAdapter
             recycledViewPool.setMaxRecycledViews(
@@ -52,20 +54,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupLongClickListener() {
+    private fun isOnePaneMode() = binding.shopItemContainer == null
+
+    private fun launchFragment(fragment: ShopItemFragment) {
+        supportFragmentManager.popBackStack()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.shop_item_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun setupLongClickItemListener() {
         shopListAdapter.onShopItemLongClickListeners = { shopItem ->
             viewModel.changeStateShopItem(shopItem)
         }
     }
 
-    private fun setupClickListener() {
+    private fun setupClickItemListener() {
         shopListAdapter.onShopItemClickListener = { shopItem ->
-            val intent = ShopItemActivity.newIntentEditMode(this, shopItem.id)
-            startActivity(intent)
+            val shopItemId = shopItem.id
+            if (isOnePaneMode()) {
+                val intent = ShopItemActivity.newIntentEditMode(this, shopItemId)
+                startActivity(intent)
+            } else {
+                val fragment = ShopItemFragment.newInstanceEditMode(shopItemId)
+                launchFragment(fragment)
+            }
         }
     }
 
-    private fun setupSwipeListener() {
+    private fun setupSwipeItemListener() {
         val itemTouchHelper = ItemTouchHelper(
             object : TouchHelperWrapper() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -78,8 +96,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAddButton() {
         binding.buttonAddShopItem.setOnClickListener {
-            val intent = ShopItemActivity.newIntentAddMode(this)
-            startActivity(intent)
+            if (isOnePaneMode()) {
+                val intent = ShopItemActivity.newIntentAddMode(this)
+                startActivity(intent)
+            } else {
+                val fragment = ShopItemFragment.newInstanceAddMode()
+                launchFragment(fragment)
+            }
         }
     }
 }
