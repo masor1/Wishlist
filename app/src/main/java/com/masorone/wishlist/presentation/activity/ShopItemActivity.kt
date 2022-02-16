@@ -1,4 +1,4 @@
-package com.masorone.wishlist.presentation
+package com.masorone.wishlist.presentation.activity
 
 import android.content.Context
 import android.content.Intent

@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.masorone.wishlist.R
 import com.masorone.wishlist.databinding.FragmentShopItemBinding
 import com.masorone.wishlist.domain.model.ShopItem
-import com.masorone.wishlist.presentation.ShopItemViewModel
 import com.masorone.wishlist.presentation.wrapper.TextWatcherWrapper
 
 class ShopItemFragment : Fragment() {

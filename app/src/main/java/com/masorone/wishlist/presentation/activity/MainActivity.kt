@@ -1,4 +1,4 @@
-package com.masorone.wishlist.presentation
+package com.masorone.wishlist.presentation.activity
 
 import android.os.Bundle
 import android.widget.Toast

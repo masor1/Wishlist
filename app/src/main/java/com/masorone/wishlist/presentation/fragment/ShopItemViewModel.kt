@@ -1,4 +1,4 @@
-package com.masorone.wishlist.presentation
+package com.masorone.wishlist.presentation.fragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
