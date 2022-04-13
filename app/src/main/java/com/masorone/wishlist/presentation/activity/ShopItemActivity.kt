@@ -27,6 +27,11 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinished
             startMode(screenMode)
     }
 
+    override fun onFinished() {
+        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
     private fun startMode(screenMode: String) {
         val fragment = when (screenMode) {
             MODE_ADD -> ShopItemFragment.newInstanceAddMode()
@@ -69,14 +74,5 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinished
             intent.putExtra(MODE_KEY, MODE_EDIT)
             return intent
         }
-    }
-
-    private fun onFragmentFinished() {
-        Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-        finish()
-    }
-
-    override fun onFinished() {
-        onFragmentFinished()
     }
 }

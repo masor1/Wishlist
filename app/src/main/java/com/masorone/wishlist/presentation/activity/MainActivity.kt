@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
         }
     }
 
-    private fun onFragmentFinished() {
+    override fun onFinished() {
         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()
     }
@@ -110,9 +110,5 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedList
                 launchFragment(fragment)
             }
         }
-    }
-
-    override fun onFinished() {
-        onFragmentFinished()
     }
 }

@@ -1,12 +1,14 @@
 package com.masorone.wishlist.presentation.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.masorone.wishlist.R
+import com.masorone.wishlist.databinding.ItemShopDisabledBinding
+import com.masorone.wishlist.databinding.ItemShopEnabledBinding
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.presentation.adapter.diff_util.ShopItemDiffCallback
 
@@ -21,9 +23,13 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder
             0 -> R.layout.item_shop_disabled
             else -> R.layout.item_shop_enabled
         }
-        return ShopItemViewHolder(
-            LayoutInflater.from(parent.context).inflate(layout, parent, false)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            layout,
+            parent,
+            false
         )
+        return ShopItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
@@ -36,15 +42,22 @@ class ShopListAdapter : ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder
         return if (shopItem.enabled) VIEW_TYPE_ENABLED else VIEW_TYPE_DISABLED
     }
 
-    inner class ShopItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvName = itemView.findViewById<TextView>(R.id.cv_name)
-        private val tvCount = itemView.findViewById<TextView>(R.id.cv_count)
+    inner class ShopItemViewHolder(private val binding: ViewDataBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shopItem: ShopItem) {
-            tvName.text = shopItem.name
-            tvCount.text = shopItem.count.toString()
+            when (binding) {
+                is ItemShopEnabledBinding -> {
+                    binding.cvName.text = shopItem.name
+                    binding.cvCount.text = shopItem.count.toString()
+                }
+                is ItemShopDisabledBinding -> {
+                    binding.cvName.text = shopItem.name
+                    binding.cvCount.text = shopItem.count.toString()
+                }
+            }
 
-            with(itemView) {
+            with(binding.root) {
                 setOnLongClickListener {
                     onShopItemLongClickListeners?.invoke(shopItem)
                     true
