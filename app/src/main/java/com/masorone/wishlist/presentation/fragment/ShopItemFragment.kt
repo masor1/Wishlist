@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.masorone.wishlist.R
 import com.masorone.wishlist.databinding.FragmentShopItemBinding
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.presentation.wrapper.TextWatcherWrapper
@@ -74,11 +73,6 @@ class ShopItemFragment : Fragment() {
     private fun launchEditMode() {
         viewModel.fetch(shopItemId)
 
-        viewModel.shopItem.observe(viewLifecycleOwner) { shopItem ->
-            binding.etName.setText(shopItem.name)
-            binding.etCount.setText(shopItem.count.toString())
-        }
-
         binding.btnSave.setOnClickListener {
             val name = binding.etName.text.toString()
             val count = binding.etCount.text.toString()
@@ -101,13 +95,6 @@ class ShopItemFragment : Fragment() {
     }
 
     private fun setupTextChangeListeners() {
-        viewModel.errorInputName.observe(viewLifecycleOwner) {
-            binding.tilName.error = if (it) getString(R.string.error_input_name) else null
-        }
-        viewModel.errorInputCount.observe(viewLifecycleOwner) {
-            binding.tilCount.error = if (it) getString(R.string.error_input_count) else null
-        }
-
         val textWatcherName = object : TextWatcherWrapper() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 viewModel.resetErrorInputName()
@@ -126,6 +113,8 @@ class ShopItemFragment : Fragment() {
 
     private fun initViewModel() {
         viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
     private fun parseParams() {
