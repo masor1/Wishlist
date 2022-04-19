@@ -1,45 +1,30 @@
 package com.masorone.wishlist.data
 
+import android.app.Application
+import androidx.arch.core.util.Function
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.domain.repository.ShopItemRepository
 
-object ShopItemRepositoryImpl : ShopItemRepository {
+class ShopItemRepositoryImpl(application: Application) : ShopItemRepository {
 
-    private val shopListLD = MutableLiveData<List<ShopItem>>()
-    private val shopList = sortedSetOf(Comparator<ShopItem> { shopItem1, shopItem2 ->
-        shopItem1.id.compareTo(shopItem2.id)
-    })
+    private val shopItemDao = ShopItemDatabase.getInstance(application).shopItemDao()
 
-    private var autoIncrementId = 0
+    private val mapper = ShopItemMapper()
 
-    override fun add(shopItem: ShopItem) {
-        if (shopItem.undefinedId())
-            shopItem.id = autoIncrementId++
-        shopList.add(shopItem)
-        updateList()
+    override suspend fun add(shopItem: ShopItem) = shopItemDao.add(mapper.mapToDb(shopItem))
+
+    override suspend fun delete(shopItem: ShopItem) = shopItemDao.delete(shopItem.id)
+
+    override suspend fun edit(shopItem: ShopItem) = add(shopItem)
+
+    override fun fetch(): LiveData<List<ShopItem>> = Transformations.map(
+        shopItemDao.fetch()
+    ) { list ->
+        mapper.mapToListOfDomain(list)
     }
 
-    override fun delete(shopItem: ShopItem) {
-        shopList.remove(shopItem)
-        updateList()
-    }
-
-    override fun edit(shopItem: ShopItem) {
-        val oldElement = fetch(shopItem.id)
-        shopList.remove(oldElement)
-        add(shopItem)
-    }
-
-    override fun fetch(): MutableLiveData<List<ShopItem>> {
-        updateList()
-        return shopListLD
-    }
-
-    override fun fetch(shopItemId: Int) = shopList.find { it.id == shopItemId }
-        ?: throw RuntimeException("Element with id $shopItemId not found")
-
-    private fun updateList() {
-        shopListLD.value = shopList.toList()
-    }
+    override suspend fun fetch(shopItemId: Int) = mapper.mapToDomain(shopItemDao.fetch(shopItemId))
 }

@@ -15,7 +15,7 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinished
     private lateinit var binding: ActivityShopItemBinding
 
     private var screenMode = MODE_UNKNOWN
-    private var shopItemId = ShopItem.UNDEFINE_ID
+    private var shopItemId = ShopItem.DEFAULT_ID
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class ShopItemActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinished
         screenMode = mode
         if (screenMode == MODE_EDIT)
             if (!intent.hasExtra(SHOP_ITEM_ID)) throw RuntimeException("Param shop item id is absent")
-        shopItemId = intent.getIntExtra(SHOP_ITEM_ID, ShopItem.UNDEFINE_ID)
+        shopItemId = intent.getIntExtra(SHOP_ITEM_ID, ShopItem.DEFAULT_ID)
     }
 
     companion object {

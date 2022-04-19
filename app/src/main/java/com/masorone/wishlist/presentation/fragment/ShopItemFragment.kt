@@ -18,7 +18,7 @@ class ShopItemFragment : Fragment() {
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
     private var screenMode: String = MODE_UNKNOWN
-    private var shopItemId: Int = ShopItem.UNDEFINE_ID
+    private var shopItemId: Int = ShopItem.DEFAULT_ID
 
     private var _binding: FragmentShopItemBinding? = null
     private val binding get() = _binding!!
@@ -125,7 +125,7 @@ class ShopItemFragment : Fragment() {
         screenMode = mode
         if (screenMode == MODE_EDIT && !args.containsKey(SHOP_ITEM_ID))
             throw RuntimeException("Param shop item id is absent")
-        shopItemId = args.getInt(SHOP_ITEM_ID, ShopItem.UNDEFINE_ID)
+        shopItemId = args.getInt(SHOP_ITEM_ID, ShopItem.DEFAULT_ID)
     }
 
     companion object {

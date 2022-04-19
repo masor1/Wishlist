@@ -1,17 +1,19 @@
 package com.masorone.wishlist.presentation.fragment
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 import com.masorone.wishlist.data.ShopItemRepositoryImpl
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.domain.usecase.AddShopItemUseCase
 import com.masorone.wishlist.domain.usecase.EditShopItemUseCase
 import com.masorone.wishlist.domain.usecase.FetchShopItemUseCase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ShopItemViewModel : ViewModel() {
+class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = ShopItemRepositoryImpl
+    private val repository = ShopItemRepositoryImpl(application)
 
     private val fetchShopItemUseCase = FetchShopItemUseCase(repository)
     private val addShopItemUseCase = AddShopItemUseCase(repository)
@@ -34,7 +36,9 @@ class ShopItemViewModel : ViewModel() {
         get() = _shopItem
 
     fun fetch(shopItemId: Int) {
-        _shopItem.value = fetchShopItemUseCase.fetch(shopItemId)
+        viewModelScope.launch {
+            _shopItem.value = fetchShopItemUseCase.fetch(shopItemId)
+        }
     }
 
     fun add(inputName: String?, inputCount: String?) {
@@ -42,8 +46,10 @@ class ShopItemViewModel : ViewModel() {
         val count = parseCount(inputCount)
         val fieldsValid = validateInput(name, count)
         if (fieldsValid) {
-            addShopItemUseCase.add(ShopItem(name, count, true))
-            finishWork()
+            viewModelScope.launch {
+                addShopItemUseCase.add(ShopItem(name, count, true))
+                finishWork()
+            }
         }
     }
 
@@ -53,8 +59,10 @@ class ShopItemViewModel : ViewModel() {
         val fieldsValid = validateInput(name, count)
         if (fieldsValid) {
             _shopItem.value?.let { shopItem ->
-                editShopItemUseCase.edit(shopItem.copy(name = name, count = count))
-                finishWork()
+                viewModelScope.launch {
+                    editShopItemUseCase.edit(shopItem.copy(name = name, count = count))
+                    finishWork()
+                }
             }
         }
     }

@@ -4,5 +4,5 @@ import com.masorone.wishlist.domain.repository.ShopItemRepository
 
 class FetchShopItemUseCase(private val shopItemRepository: ShopItemRepository) {
 
-    fun fetch(shopItemId: Int) = shopItemRepository.fetch(shopItemId)
+    suspend fun fetch(shopItemId: Int) = shopItemRepository.fetch(shopItemId)
 }

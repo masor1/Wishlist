@@ -1,17 +1,18 @@
 package com.masorone.wishlist.domain.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.masorone.wishlist.domain.model.ShopItem
 
 interface ShopItemRepository {
 
-    fun add(shopItem: ShopItem)
+    suspend fun add(shopItem: ShopItem)
 
-    fun delete(shopItem: ShopItem)
+    suspend fun delete(shopItem: ShopItem)
 
-    fun edit(shopItem: ShopItem)
+    suspend fun edit(shopItem: ShopItem)
 
-    fun fetch(): MutableLiveData<List<ShopItem>>
+    fun fetch(): LiveData<List<ShopItem>>
 
-    fun fetch(shopItemId: Int): ShopItem
+    suspend fun fetch(shopItemId: Int): ShopItem
 }
