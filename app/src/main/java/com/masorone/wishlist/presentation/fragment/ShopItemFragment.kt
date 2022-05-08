@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.masorone.wishlist.App
 import com.masorone.wishlist.databinding.FragmentShopItemBinding
 import com.masorone.wishlist.domain.model.ShopItem
+import com.masorone.wishlist.presentation.ViewModelFactory
+import com.masorone.wishlist.presentation.activity.MainViewModel
 import com.masorone.wishlist.presentation.wrapper.TextWatcherWrapper
 import javax.inject.Inject
 
@@ -26,8 +29,10 @@ class ShopItemFragment : Fragment() {
         (requireActivity().application as App).appComponent
     }
 
+    private lateinit var viewModel: ShopItemViewModel
+
     @Inject
-    lateinit var viewModel: ShopItemViewModel
+    lateinit var viewModFactory: ViewModelFactory
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -119,6 +124,7 @@ class ShopItemFragment : Fragment() {
     }
 
     private fun initViewModel() {
+        viewModel = ViewModelProvider(this, viewModFactory)[ShopItemViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
     }
