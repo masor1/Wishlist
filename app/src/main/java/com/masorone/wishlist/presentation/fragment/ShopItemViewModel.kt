@@ -1,23 +1,21 @@
 package com.masorone.wishlist.presentation.fragment
 
-import android.app.Application
-import androidx.lifecycle.*
-import com.masorone.wishlist.data.ShopItemRepositoryImpl
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.domain.usecase.AddShopItemUseCase
 import com.masorone.wishlist.domain.usecase.EditShopItemUseCase
 import com.masorone.wishlist.domain.usecase.FetchShopItemUseCase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ShopItemViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = ShopItemRepositoryImpl(application)
-
-    private val fetchShopItemUseCase = FetchShopItemUseCase(repository)
-    private val addShopItemUseCase = AddShopItemUseCase(repository)
-    private val editShopItemUseCase = EditShopItemUseCase(repository)
+class ShopItemViewModel @Inject constructor(
+    private val fetchShopItemUseCase: FetchShopItemUseCase,
+    private val addShopItemUseCase: AddShopItemUseCase,
+    private val editShopItemUseCase: EditShopItemUseCase
+) : ViewModel() {
 
     private val _errorInputName = MutableLiveData<Boolean>()
     val errorInputName: LiveData<Boolean>

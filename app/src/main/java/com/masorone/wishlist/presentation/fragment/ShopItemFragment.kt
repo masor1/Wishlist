@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.masorone.wishlist.App
 import com.masorone.wishlist.databinding.FragmentShopItemBinding
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.presentation.wrapper.TextWatcherWrapper
+import javax.inject.Inject
 
 class ShopItemFragment : Fragment() {
-
-    private lateinit var viewModel: ShopItemViewModel
 
     private lateinit var onEditingFinishedListener: OnEditingFinishedListener
 
@@ -22,6 +21,13 @@ class ShopItemFragment : Fragment() {
 
     private var _binding: FragmentShopItemBinding? = null
     private val binding get() = _binding!!
+
+    private val appComponent by lazy {
+        (requireActivity().application as App).appComponent
+    }
+
+    @Inject
+    lateinit var viewModel: ShopItemViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -33,6 +39,7 @@ class ShopItemFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        appComponent.inject(this)
         super.onCreate(savedInstanceState)
         parseParams()
     }
@@ -112,7 +119,6 @@ class ShopItemFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(this)[ShopItemViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
     }

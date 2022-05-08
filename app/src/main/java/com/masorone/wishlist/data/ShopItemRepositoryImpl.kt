@@ -1,16 +1,15 @@
 package com.masorone.wishlist.data
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.masorone.wishlist.domain.model.ShopItem
 import com.masorone.wishlist.domain.repository.ShopItemRepository
+import javax.inject.Inject
 
-class ShopItemRepositoryImpl(application: Application) : ShopItemRepository {
-
-    private val shopItemDao = ShopItemDatabase.getInstance(application).shopItemDao()
-
-    private val mapper = ShopItemMapper()
+class ShopItemRepositoryImpl @Inject constructor(
+    private val shopItemDao: ShopItemDao,
+    private val mapper: ShopItemMapper
+) : ShopItemRepository {
 
     override suspend fun add(shopItem: ShopItem) = shopItemDao.add(mapper.mapToDb(shopItem))
 

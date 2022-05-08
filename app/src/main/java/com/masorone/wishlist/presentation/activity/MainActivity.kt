@@ -3,31 +3,37 @@ package com.masorone.wishlist.presentation.activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.masorone.wishlist.App
 import com.masorone.wishlist.R
 import com.masorone.wishlist.databinding.ActivityMainBinding
 import com.masorone.wishlist.presentation.adapter.ShopListAdapter
 import com.masorone.wishlist.presentation.fragment.ShopItemFragment
 import com.masorone.wishlist.presentation.wrapper.TouchHelperWrapper
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditingFinishedListener {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
 
+    private val appComponent by lazy {
+        (application as App).appComponent
+    }
+
+    @Inject
+    lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupRecyclerView()
         setupAddButton()
 
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
         viewModel.shopList.observe(this) { listOfShopItem ->
             shopListAdapter.submitList(listOfShopItem)
         }

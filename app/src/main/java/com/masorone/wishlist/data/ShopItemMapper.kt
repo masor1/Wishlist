@@ -1,8 +1,9 @@
 package com.masorone.wishlist.data
 
 import com.masorone.wishlist.domain.model.ShopItem
+import javax.inject.Inject
 
-class ShopItemMapper {
+class ShopItemMapper @Inject constructor() {
 
     fun mapToDb(shopItem: ShopItem) = ShopItemDb(
         shopItem.id,
